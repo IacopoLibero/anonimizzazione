@@ -1,4 +1,11 @@
-# Progetto di Anonimizzazione Online
+# Progetto di Anonimizzazione Online / Online Anonymization Project
+
+[🇮🇹 Italiano](#italian) | [🇬🇧 English](#english)
+
+---
+
+<a name="italian"></a>
+# 🇮🇹 Progetto di Anonimizzazione Online
 
 Questo repository contiene uno script per configurare e utilizzare vari strumenti di anonimizzazione online (Tor, Proxychains, Anonsurf) in diversi ambienti isolati.
 
@@ -42,6 +49,7 @@ Lo script offre diverse opzioni:
 - Controllo dell'IP pubblico
 - Pulizia di cache e cookie
 - Configurazione di vari ambienti isolati (Docker, Firejail, VM)
+- Supporto multilingua (Italiano e Inglese)
 
 ## Ordine di Utilizzo Consigliato
 
@@ -188,3 +196,198 @@ Ricorda che nessuna soluzione offre anonimato perfetto al 100%. La sicurezza dip
 ## Contributi
 
 I contributi sono benvenuti! Sentiti libero di aprire issues o pull requests per migliorare questo progetto.
+
+---
+
+<a name="english"></a>
+# 🇬🇧 Online Anonymization Project
+
+This repository contains a script to configure and use various online anonymization tools (Tor, Proxychains, Anonsurf) in different isolated environments.
+
+## ⚠️ DISCLAIMER
+
+**IMPORTANT: READ BEFORE USING**
+
+This software is provided for educational and research purposes only. The author assumes no responsibility for misuse of this tool. By using this software, the user agrees to:
+
+1. **Legal use**: Use these tools in compliance with all applicable local, national, and international laws. Online anonymity may be illegal in some jurisdictions.
+
+2. **No warranty**: This software is provided "as is", without warranties of any kind. It is not guaranteed to provide complete anonymity or to be free from vulnerabilities.
+
+3. **Risks**: The user acknowledges that online anonymity is never 100% absolute. Configuration errors, software vulnerabilities, or targeted attacks can compromise privacy.
+
+4. **Responsible use**: The user commits not to use these tools for illegal activities, harassment, violations of others' privacy, or any other harmful activity.
+
+5. **Technical limitations**: These tools can significantly slow down internet connection and some web functionalities may not work properly.
+
+Remember that the best approach to online security is a combination of technical tools, awareness, and prudent behaviors.
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/IacopoLibero/anonimizzazione
+cd anonimizzazione
+
+# Make the main script executable
+chmod +x anon_setup.sh
+
+# Run the script (requires root privileges for some operations)
+sudo ./anon_setup.sh
+```
+
+## Features
+
+The script offers several options:
+- Installation and configuration of Tor, Proxychains, and Anonsurf
+- Launch of anonymized browsers via Proxychains
+- IP address verification
+- Cache and cookie cleaning
+- Configuration of various isolated environments (Docker, Firejail, VM)
+- Multilingual support (Italian and English)
+
+## Recommended Usage Order
+
+The script offers two main approaches for anonymization:
+
+### Approach 1: Using an Isolated Environment (recommended)
+
+This is the recommended order for maximum security:
+
+1. **First configure the isolated environment**:
+   - Option 8: Configure Docker
+   - Option 9: Configure Firejail
+   - Option 10: Setup Whonix VM
+   - Option 11: Setup Tails OS
+
+2. **Then use the tools inside the isolated environment**:
+   - Docker and Firejail environments have Tor, Proxychains, and AnonSurf preconfigured
+   - For Whonix and Tails, all tools are already integrated into the system
+
+With this approach, it's not necessary to install the tools on the host system, as they will be automatically configured in the isolated environment.
+
+### Approach 2: Direct Installation on the Host System
+
+If you prefer not to use isolated environments (less secure but more practical):
+
+1. **First install the tools**:
+   - Option 1: Install Tor, Proxychains, Anonsurf
+   
+2. **Then use them**:
+   - Option 2: Launch Tor Browser
+   - Option 3: Launch browser with Proxychains
+   - Option 4: Start Anonsurf
+
+### Important Note:
+- It is **not necessary** to install the tools on the host system if you plan to use Docker, Firejail, Whonix, or Tails
+- Each isolated environment has its own set of tools independent from the host system
+- Option 12 helps you compare the different options to choose the one that best suits your needs
+
+## Options Available for Anonymization
+
+### 1. Docker Container
+
+**What it is**: Docker is a platform that allows applications to run in isolated containers that share the host operating system kernel but are isolated at the file system, network, and process level.
+
+**Advantages**:
+- Easy to configure and use
+- Lightweight (less overhead compared to a VM)
+- Reproducible and portable environment
+- Process and file system isolation
+
+**Disadvantages**:
+- Shares the kernel with the host (not complete isolation)
+- May require root privileges for some network operations
+
+**Ideal for**: Intermediate users who want a good compromise between isolation and ease of use.
+
+### 2. Firejail (Sandbox)
+
+**What it is**: Firejail is a sandboxing tool that limits the execution environment of a process using Linux namespaces, seccomp-bpf, and other isolation technologies.
+
+**Advantages**:
+- Very lightweight (almost zero overhead)
+- Easy to use
+- Perfect for isolating single applications
+- Does not require additional software beyond Firejail itself
+
+**Disadvantages**:
+- Less complete isolation compared to VM or Docker
+- Shares more resources with the host system
+
+**Ideal for**: Users who want to quickly isolate single applications without complex configurations.
+
+### 3. Whonix Virtual Machine
+
+**What it is**: Whonix is a privacy-focused operating system that works as two separate virtual machines: a "Gateway" that routes all traffic through Tor and a "Workstation" where the user works.
+
+**Advantages**:
+- Excellent isolation (complete virtualization)
+- Specifically designed for anonymity
+- Two VM system that prevents data leaks
+- Protection against advanced attacks
+
+**Disadvantages**:
+- Requires more system resources
+- More complex configuration
+- Lower performance compared to lighter solutions
+
+**Ideal for**: Users who need a high level of anonymity and security.
+
+### 4. Tails OS
+
+**What it is**: Tails is a live operating system designed to preserve privacy and anonymity, which boots from USB and leaves no traces on the computer.
+
+**Advantages**:
+- Maximum isolation (completely separate system)
+- Amnesia (does not save data unless explicitly configured)
+- All traffic passes through Tor
+- Independent from the host operating system
+
+**Disadvantages**:
+- Requires computer reboot
+- Requires a USB stick
+- Less convenient for daily use
+- Settings are lost between sessions (unless persistent storage is configured)
+
+**Ideal for**: High-risk situations requiring maximum security and leaving no traces.
+
+## Maximum Protection: Using All Tools Together
+
+To achieve the maximum level of anonymization, this project allows you to use all three main tools (Tor, Proxychains, and Anonsurf) simultaneously. Each tool adds a different layer of protection.
+
+### How They Work Together
+
+1. **Anonsurf**: Configures all network traffic to pass through the Tor network, modifies firewall rules, and sets up secure DNS. It works at the system level.
+
+2. **Tor**: Creates a network of nodes that encrypt and route traffic through random paths, making it difficult to trace your online activity back to the original source.
+
+3. **Proxychains**: Adds an additional layer of proxy forwarding, allowing specific applications (like browsers) to be channeled through a configurable proxy chain.
+
+When used together, they create a multi-layered system that maximizes anonymity.
+
+## Comparison Table
+
+| Criterion         | Docker     | Firejail   | Whonix VM  | Tails OS   |
+|-------------------|------------|------------|------------|------------|
+| Isolation level   | Medium     | Low-Medium | High       | Very High  |
+| Ease of use       | Medium     | High       | Medium     | Medium     |
+| Resources required| Low        | Very Low   | High       | Medium     |
+| Data persistence  | Yes        | Yes        | Yes        | No*        |
+| IP protection     | Good       | Good       | Very Good  | Excellent  |
+| Daily usage       | Good       | Excellent  | Good       | Difficult  |
+
+\* Tails can be configured with optional persistent storage.
+
+## Which One to Choose?
+
+- **For beginners** interested in privacy: Firejail or Docker
+- **For daily use** with decent protection: Docker or Firejail
+- **For sensitive activities** requiring good isolation: Whonix VM
+- **For maximum protection** in critical situations: Tails OS
+
+Remember that no solution offers 100% perfect anonymity. Security also depends on your browsing habits and how you use the system.
+
+## Contributions
+
+Contributions are welcome! Feel free to open issues or pull requests to improve this project.
