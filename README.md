@@ -25,6 +25,43 @@ Lo script offre diverse opzioni:
 - Pulizia di cache e cookie
 - Configurazione di vari ambienti isolati (Docker, Firejail, VM)
 
+## Ordine di Utilizzo Consigliato
+
+Lo script offre due approcci principali per l'anonimizzazione:
+
+### Approccio 1: Utilizzare un Ambiente Isolato (consigliato)
+
+Questo è l'ordine consigliato per massima sicurezza:
+
+1. **Prima configura l'ambiente isolato**:
+   - Opzione 8: Configura Docker
+   - Opzione 9: Configura Firejail
+   - Opzione 10: Setup Whonix VM
+   - Opzione 11: Setup Tails OS
+
+2. **Poi utilizza gli strumenti all'interno dell'ambiente isolato**:
+   - Gli ambienti Docker e Firejail hanno già preconfigurato Tor, Proxychains e AnonSurf
+   - Per Whonix e Tails, tutti gli strumenti sono già integrati nel sistema
+
+Con questo approccio, non è necessario installare gli strumenti sul sistema host, poiché verranno configurati automaticamente nell'ambiente isolato.
+
+### Approccio 2: Installazione Diretta sul Sistema Host
+
+Se preferisci non utilizzare ambienti isolati (meno sicuro ma più pratico):
+
+1. **Prima installa gli strumenti**:
+   - Opzione 1: Installa Tor, Proxychains, Anonsurf
+   
+2. **Poi utilizzali**:
+   - Opzione 2: Avvia Tor Browser
+   - Opzione 3: Avvia browser con Proxychains
+   - Opzione 4: Avvia Anonsurf
+
+### Nota Importante:
+- **Non è necessario** installare gli strumenti sul sistema host se prevedi di utilizzare Docker, Firejail, Whonix o Tails
+- Ogni ambiente isolato ha il proprio set di strumenti indipendente dal sistema host
+- L'opzione 12 ti aiuta a confrontare le diverse opzioni per scegliere quella più adatta alle tue esigenze
+
 ## Opzioni Disponibili per l'Anonimizzazione
 
 ### 1. Docker Container
