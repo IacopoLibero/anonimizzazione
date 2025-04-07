@@ -3,7 +3,9 @@
 # Script di anonimizzazione online con Tor, Proxychains e Anonsurf
 # Creato per facilitare la configurazione di un ambiente anonimo
 
-cat << "EOF"
+# Funzione per mostrare solo il logo
+show_logo() {
+    cat << "EOF"
     _                      _                 
    / \   _ __   ___  _ __ (_)_ __ ___   ___  
   / _ \ | '_ \ / _ \| '_ \| | '_ ` _ \ / _ \ 
@@ -12,8 +14,11 @@ cat << "EOF"
                                            
  Tool di Anonimizzazione - v1.0
 EOF
+}
 
-cat << "EOF"
+# Funzione per mostrare il disclaimer
+show_disclaimer() {
+    cat << "EOF"
 =========================================================
 ⚠️  DISCLAIMER - LEGGERE PRIMA DELL'UTILIZZO
 =========================================================
@@ -33,6 +38,15 @@ la tua privacy online in modo legale e responsabile.
 =========================================================
 
 EOF
+    echo "Premi Enter per continuare..."
+    read
+}
+
+# Funzione per mostrare il logo e il disclaimer (all'avvio)
+show_banner() {
+    show_logo
+    show_disclaimer
+}
 
 # Colori per output
 RED='\033[0;31m'
@@ -559,6 +573,8 @@ stop_all_tools() {
 # Menu principale
 show_menu() {
     clear
+    show_logo  # Mostra sempre il logo in cima
+    echo ""
     echo -e "${BLUE}====================================${NC}"
     echo -e "${BLUE}    TOOL DI ANONIMIZZAZIONE ONLINE    ${NC}"
     echo -e "${BLUE}====================================${NC}"
@@ -584,8 +600,9 @@ show_menu() {
     echo -e "${YELLOW}12.${NC} Confronto tra le opzioni di isolamento"
     echo ""
     echo -e "${YELLOW}0.${NC} Esci"
+    echo -e "${YELLOW}15.${NC} Mostra disclaimer"
     echo ""
-    echo -n "Seleziona un'opzione [0-14]: "
+    echo -n "Seleziona un'opzione [0-15]: "
     read choice
 
     case $choice in
@@ -704,6 +721,12 @@ show_menu() {
             read
             show_menu
             ;;
+        15)
+            clear
+            show_logo      # Mostra il logo
+            show_disclaimer # Poi il disclaimer
+            show_menu
+            ;;
         0)
             clear
             echo "Grazie per aver usato lo script di anonimizzazione!"
@@ -718,4 +741,5 @@ show_menu() {
 }
 
 # Avvio dello script
-show_menu
+show_banner  # Mostra il logo e il disclaimer all'avvio
+show_menu    # Poi mostra il menu principale
