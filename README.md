@@ -2,6 +2,24 @@
 
 Questo repository contiene uno script per configurare e utilizzare vari strumenti di anonimizzazione online (Tor, Proxychains, Anonsurf) in diversi ambienti isolati.
 
+## ⚠️ DISCLAIMER
+
+**IMPORTANTE: LEGGERE PRIMA DELL'UTILIZZO**
+
+Questo software è fornito esclusivamente a scopo educativo e di ricerca. L'autore non si assume alcuna responsabilità per l'uso improprio di questo strumento. Utilizzando questo software, l'utente accetta di:
+
+1. **Utilizzo legale**: Utilizzare questi strumenti in conformità con tutte le leggi locali, nazionali e internazionali applicabili. L'anonimato online può essere illegale in alcune giurisdizioni.
+
+2. **Nessuna garanzia**: Questo software è fornito "così com'è", senza garanzie di alcun tipo. Non è garantito che fornisca un anonimato completo o che sia privo di vulnerabilità.
+
+3. **Rischi**: L'utente riconosce che l'anonimato online non è mai assoluto al 100%. Errori di configurazione, vulnerabilità del software o attacchi mirati possono compromettere la privacy.
+
+4. **Uso responsabile**: L'utente si impegna a non utilizzare questi strumenti per attività illecite, molestie, violazioni della privacy altrui o qualsiasi altra attività dannosa.
+
+5. **Limiti tecnici**: Questi strumenti possono rallentare significativamente la connessione internet e alcune funzionalità web potrebbero non funzionare correttamente.
+
+Ricorda che il miglior approccio alla sicurezza online è una combinazione di strumenti tecnici, consapevolezza e comportamenti prudenti.
+
 ## Installazione
 
 ```bash
@@ -130,6 +148,20 @@ Se preferisci non utilizzare ambienti isolati (meno sicuro ma più pratico):
 - Le impostazioni si perdono tra una sessione e l'altra (a meno di configurare lo storage persistente)
 
 **Ideale per**: Situazioni ad alto rischio che richiedono massima sicurezza e non lasciare tracce.
+
+## Massima Protezione: Usare Tutti gli Strumenti Insieme
+
+Per ottenere il massimo livello di anonimizzazione, questo progetto permette di utilizzare tutti e tre gli strumenti principali (Tor, Proxychains e Anonsurf) contemporaneamente. Ogni strumento aggiunge un livello diverso di protezione:
+
+### Come Funzionano Insieme
+
+1. **Anonsurf**: Configura tutto il traffico di rete per passare attraverso la rete Tor, modifica le regole del firewall e imposta DNS sicuri. Funziona a livello di sistema.
+
+2. **Tor**: Crea una rete di nodi che cifrano e instradano il traffico attraverso percorsi casuali, rendendo difficile tracciare la tua attività online fino alla sorgente originale.
+
+3. **Proxychains**: Aggiunge un ulteriore livello di inoltro proxy, permettendo di incanalare applicazioni specifiche (come browser) attraverso una catena di proxy configurabile.
+
+Quando utilizzati insieme, creano un sistema a più livelli che massimizza l'anonimato.
 
 ## Tabella Comparativa
 

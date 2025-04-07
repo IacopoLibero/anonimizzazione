@@ -3,6 +3,37 @@
 # Script di anonimizzazione online con Tor, Proxychains e Anonsurf
 # Creato per facilitare la configurazione di un ambiente anonimo
 
+cat << "EOF"
+    _                      _                 
+   / \   _ __   ___  _ __ (_)_ __ ___   ___  
+  / _ \ | '_ \ / _ \| '_ \| | '_ ` _ \ / _ \ 
+ / ___ \| | | | (_) | | | | | | | | | | (_) |
+/_/   \_\_| |_|\___/|_| |_|_|_| |_| |_|\___/ 
+                                           
+ Tool di Anonimizzazione - v1.0
+EOF
+
+cat << "EOF"
+=========================================================
+⚠️  DISCLAIMER - LEGGERE PRIMA DELL'UTILIZZO
+=========================================================
+
+Questo software è fornito esclusivamente a scopo educativo 
+e di ricerca. L'autore non si assume alcuna responsabilità 
+per l'uso improprio di questo strumento.
+
+Utilizzando questo script, l'utente accetta che:
+- Utilizzerà questi strumenti in conformità con tutte le leggi
+- Non è garantito un anonimato completo
+- L'anonimato online non è mai assoluto al 100%
+- Non utilizzerà questi strumenti per attività illecite
+
+USO RESPONSABILE: Questo script è pensato per proteggere 
+la tua privacy online in modo legale e responsabile.
+=========================================================
+
+EOF
+
 # Colori per output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -414,6 +445,117 @@ compare_isolation_options() {
     echo ""
 }
 
+# Avvia tutti gli strumenti insieme per la massima protezione
+use_all_tools_together() {
+    print_status "Avvio di tutti gli strumenti insieme per la massima protezione..."
+    
+    # Step 1: Avvia Tor
+    print_status "Step 1: Avvio del servizio Tor..."
+    service tor start
+    if [ $? -ne 0 ]; then
+        print_error "Errore nell'avvio di Tor. Impossibile continuare."
+        return 1
+    fi
+    print_success "Servizio Tor avviato"
+    
+    # Step 2: Avvia Anonsurf
+    print_status "Step 2: Avvio di Anonsurf..."
+    anonsurf start
+    if [ $? -ne 0 ]; then
+        print_error "Errore nell'avvio di Anonsurf. Ferma Tor e riprova."
+        service tor stop
+        return 1
+    fi
+    print_success "Anonsurf avviato correttamente"
+    
+    # Step 3: Verifica configurazione di Proxychains
+    print_status "Step 3: Verifica configurazione di Proxychains..."
+    CONFIG_FILE="/etc/proxychains4.conf"
+    if [ ! -f "$CONFIG_FILE" ]; then
+        CONFIG_FILE="/etc/proxychains.conf"
+    fi
+    
+    if [ ! -f "$CONFIG_FILE" ]; then
+        print_error "File di configurazione Proxychains non trovato."
+        print_status "Installazione di Proxychains..."
+        apt install -y proxychains4
+        
+        CONFIG_FILE="/etc/proxychains4.conf"
+        if [ ! -f "$CONFIG_FILE" ]; then
+            CONFIG_FILE="/etc/proxychains.conf"
+        fi
+        
+        if [ ! -f "$CONFIG_FILE" ]; then
+            print_error "Impossibile installare Proxychains. Ferma gli altri servizi e riprova."
+            anonsurf stop
+            service tor stop
+            return 1
+        fi
+    fi
+    
+    # Verifica che il proxy Tor sia configurato in Proxychains
+    if ! grep -q "socks5 127.0.0.1 9050" "$CONFIG_FILE"; then
+        print_status "Aggiungo il proxy Tor a Proxychains..."
+        echo "socks5 127.0.0.1 9050" >> "$CONFIG_FILE"
+    fi
+    print_success "Proxychains configurato correttamente"
+    
+    # Step 4: Verifica che tutto funzioni insieme
+    print_status "Step 4: Verifica del funzionamento combinato..."
+    
+    sleep 3
+    
+    # Usa Proxychains+Tor+Anonsurf per verificare l'IP
+    print_status "Verifica dell'IP attraverso tutti i livelli di protezione:"
+    CURRENT_IP=$(proxychains curl -s ifconfig.me)
+    if [ -z "$CURRENT_IP" ]; then
+        print_warning "Non è stato possibile ottenere l'IP. Questo potrebbe indicare che la protezione è molto forte o che c'è un problema di connessione."
+    else
+        echo -e "${GREEN}Il tuo IP pubblico anonimizzato è: ${CURRENT_IP}${NC}"
+    fi
+    
+    # Step 5: Avvia browser con massima protezione
+    print_status "Step 5: Avvio browser con protezione massima..."
+    
+    # Controlla se Firefox è installato
+    if command -v firefox &> /dev/null; then
+        print_status "Avvio Firefox attraverso Proxychains (con Tor e Anonsurf attivi)..."
+        proxychains firefox -private-window about:blank &
+    elif command -v google-chrome &> /dev/null; then
+        print_status "Avvio Chrome attraverso Proxychains (con Tor e Anonsurf attivi)..."
+        proxychains google-chrome --incognito about:blank &
+    elif command -v chromium-browser &> /dev/null; then
+        print_status "Avvio Chromium attraverso Proxychains (con Tor e Anonsurf attivi)..."
+        proxychains chromium-browser --incognito about:blank &
+    else
+        print_error "Nessun browser compatibile trovato. Installa Firefox, Chrome o Chromium."
+        return 1
+    fi
+    
+    print_success "Tutti i sistemi avviati correttamente insieme"
+    print_status "La protezione è ora ai massimi livelli con: Tor + Proxychains + Anonsurf"
+    print_warning "Ricorda: Disabilita JavaScript e cancella cookie/cache per massima sicurezza"
+    
+    return 0
+}
+
+# Ferma tutti gli strumenti insieme
+stop_all_tools() {
+    print_status "Arresto di tutti gli strumenti di protezione..."
+    
+    print_status "Arresto di Anonsurf..."
+    anonsurf stop
+    
+    print_status "Arresto del servizio Tor..."
+    service tor stop
+    
+    print_success "Tutti i servizi di protezione sono stati arrestati"
+    
+    print_status "Verifica dell'IP reale:"
+    CURRENT_IP=$(curl -s ifconfig.me)
+    echo -e "${YELLOW}Il tuo IP pubblico attuale è: ${CURRENT_IP}${NC}"
+}
+
 # Menu principale
 show_menu() {
     clear
@@ -430,6 +572,10 @@ show_menu() {
     echo -e "${YELLOW}6.${NC} Verifica IP corrente"
     echo -e "${YELLOW}7.${NC} Pulisci cache e cookie"
     echo ""
+    echo -e "${RED}MASSIMA PROTEZIONE:${NC}"
+    echo -e "${RED}13.${NC} Avvia Tor + Proxychains + Anonsurf insieme"
+    echo -e "${RED}14.${NC} Ferma tutti i servizi di protezione"
+    echo ""
     echo -e "${YELLOW}CONFIGURAZIONE AMBIENTI ISOLATI:${NC}"
     echo -e "${YELLOW}8.${NC} Configura Docker (container isolato)"
     echo -e "${YELLOW}9.${NC} Configura Firejail (sandbox)"
@@ -439,7 +585,7 @@ show_menu() {
     echo ""
     echo -e "${YELLOW}0.${NC} Esci"
     echo ""
-    echo -n "Seleziona un'opzione [0-12]: "
+    echo -n "Seleziona un'opzione [0-14]: "
     read choice
 
     case $choice in
@@ -540,6 +686,20 @@ show_menu() {
             ;;
         12)
             compare_isolation_options
+            echo "Premi Enter per continuare..."
+            read
+            show_menu
+            ;;
+        13)
+            check_root
+            use_all_tools_together
+            echo "Premi Enter per continuare..."
+            read
+            show_menu
+            ;;
+        14)
+            check_root
+            stop_all_tools
             echo "Premi Enter per continuare..."
             read
             show_menu
